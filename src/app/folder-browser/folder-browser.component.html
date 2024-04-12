@@ -1,0 +1,37 @@
+<!-- folder-browser.component.html -->
+
+<input type="text" [(ngModel)]="searchQuery" placeholder="Search files and folders">
+<button (click)="filterFiles()">Search</button>
+<ul>
+  <li *ngFor="let file of filteredFiles">{{ file.name }}</li>
+</ul>
+
+
+  <div *ngFor="let folder of folders">
+    <a href="#" (click)="navigateToFolder(folder)">
+      {{ folder }}
+    </a>
+  </div>  
+
+<div *ngFor="let file of files">
+  {{ file.name }} - Size: {{ file.size }} bytes   
+  <br>
+</div>
+
+<p>Total Folders: {{ folderCount }}</p>
+<p>Total Files: {{ fileCount }}</p>
+
+<br>
+
+<div>
+  
+    <input type="file" (change)="onFileSelected($event)">
+    <button *ngIf="selectedFile" (click)="downloadFile()">Download(View) File</button>
+</div>
+
+<br>
+
+  <div>
+    <input type="file" #fileInput style="display: none;" (change)="handleFileInput($event)">
+    <button (click)="fileInput.click()">Choose Upload File</button>
+</div>
