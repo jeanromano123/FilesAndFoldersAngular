@@ -42,11 +42,5 @@ export class FileBrowserService {
     const params = new HttpParams().set('searchQuery', searchQuery);
     return this.http.get<any>(`${this.baseUrl}/search`, { params });
   }
-
-
-  getFileContent(file: string): Observable<string> {       
-    const params = new HttpParams().set('fileName', file);    
-    return this.http.get<any>(this.baseFileUrl, { params });  
-
-  }
+  
 }

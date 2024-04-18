@@ -19,6 +19,7 @@ export class FolderBrowserComponent implements OnInit {
   path: string = "jeanr";    
   searchQuery: string = '';
   filteredFiles: FileItem[] = [];
+  filteredFolders: string[] = [];
   
   files: FileItem[] = [];
   folderCount: number = 0;
@@ -31,6 +32,8 @@ export class FolderBrowserComponent implements OnInit {
   }  
 
   loadFolders(path:string): void {
+    this.filteredFiles = [];
+    this.filteredFolders = [];
     this.fileBrowserService.getFolders(path).subscribe(
       (response: any) => {
         console.log('API response:', response); // Log the API response for debugging
@@ -40,7 +43,7 @@ export class FolderBrowserComponent implements OnInit {
             name: file.name,
             size: file.size 
           }));
-          this.files = response.files || [];  
+          //this.files = response.files || [];  
           this.folderCount = this.folders.length;
           this.fileCount = this.files.length;    
         } else {
@@ -56,12 +59,23 @@ export class FolderBrowserComponent implements OnInit {
   }
 
   filterFiles() {
-    this.filteredFiles = this.files.filter(file =>
-      file.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    ).map(file => ({
+    this.loadFolders(this.path);
+
+    if (this.searchQuery.trim() === '') {
+      this.filteredFiles = [];
+      this.filteredFolders=[];
+      return;
+    }
+    this.filteredFolders = this.folders.filter( folder=>
+      folder.toLowerCase().includes(this.searchQuery.toLocaleLowerCase()));
+    this.filteredFiles = this.files.filter(file =>      
+      file.name.toLowerCase().includes(this.searchQuery.toLowerCase())      
+    ).map(file => 
+      ({
       name: file.name,
       size: file.size 
     }));
+    console.log('search query:', this.searchQuery);
     if(this.filteredFiles)
       this.files = [];
   }

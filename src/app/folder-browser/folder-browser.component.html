@@ -3,6 +3,9 @@
 <input type="text" [(ngModel)]="searchQuery" placeholder="Search files and folders">
 <button (click)="filterFiles()">Search</button>
 <ul>
+  <li *ngFor="let folder of filteredFolders">{{ folder }}</li>
+</ul>
+<ul>
   <li *ngFor="let file of filteredFiles">{{ file.name }}</li>
 </ul>
 
@@ -31,7 +34,9 @@
 
 <br>
 
-  <div>
-    <input type="file" #fileInput style="display: none;" (change)="handleFileInput($event)">
-    <button (click)="fileInput.click()">Choose Upload File</button>
+  
+
+<div>
+  <input type="file" #fileInput style="display: none;" (change)="handleFileInput($event)">
+  <button (click)="fileInput.click()">Choose Upload File</button>
 </div>
